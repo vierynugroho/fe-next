@@ -231,7 +231,7 @@ export default function Home() {
 								type='submit'
 								disabled={createIsLoading}
 							>
-								{createIsLoading ? <Spinner /> : 'Add Product'}
+								{createIsLoading ? <Spinner /> : 'Submit Product'}
 							</Button>
 						</VStack>
 					</form>
