@@ -103,6 +103,7 @@ export default function Home() {
 		},
 	});
 
+	//TODO: Render Products
 	const renderProducts = () => {
 		return (
 			<Table>
