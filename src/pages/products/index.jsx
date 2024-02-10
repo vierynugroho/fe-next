@@ -6,6 +6,7 @@ import { useCreateProduct } from '@/hooks/products/useCreateProduct';
 import { useMutation } from '@tanstack/react-query';
 import { axiosInstance } from '@/lib/axios';
 import { useDeleteProducts } from '@/hooks/products/useDeleteProducts';
+import { useEditProduct } from '@/hooks/products/useEditProduct';
 
 export default function Home() {
 	const { data: dataProducts, isLoading: productsIsLoading, refetch: refetchProducts } = useFetchProducts();
@@ -28,12 +29,6 @@ export default function Home() {
 					price: parseInt(price),
 					description,
 					image,
-				});
-
-				toast({
-					title: 'Product Edited',
-					status: 'success',
-					position: 'top-right',
 				});
 			} else {
 				createProduct({
@@ -69,7 +64,7 @@ export default function Home() {
 	});
 
 	//TODO: delete
-	const { mutate: deleteProduct, isLoading: deleteIsLoadingt } = useDeleteProducts({
+	const { mutate: deleteProduct, isLoading: deleteIsLoading } = useDeleteProducts({
 		onSuccess: () => {
 			refetchProducts();
 			toast({
@@ -97,15 +92,11 @@ export default function Home() {
 		formik.setFieldValue('image', product.image);
 	};
 
-	const { mutate: editProduct, isLoading: editIsLoading } = useMutation({
-		mutationFn: async (body) => {
-			const response = await axiosInstance.patch(`/products/${body.id}`, body);
-			return response;
-		},
+	const { mutate: editProduct, isLoading: editIsLoading } = useEditProduct({
 		onSuccess: () => {
 			refetchProducts();
 			toast({
-				title: 'Product Deleted!',
+				title: 'Product Edited!',
 				status: 'success',
 				position: 'top-right',
 			});
@@ -144,7 +135,7 @@ export default function Home() {
 									colorScheme={'red'}
 									onClick={() => confirmationDelete(product.id)}
 								>
-									Delete
+									{deleteIsLoading ? <Spinner /> : 'Delete'}
 								</Button>
 							</td>
 							<td>
@@ -229,9 +220,9 @@ export default function Home() {
 							</FormControl>
 							<Button
 								type='submit'
-								disabled={createIsLoading}
+								disabled={createIsLoading || editIsLoading}
 							>
-								{createIsLoading ? <Spinner /> : 'Submit Product'}
+								{createIsLoading || editIsLoading ? <Spinner /> : 'Submit Product'}
 							</Button>
 						</VStack>
 					</form>
