@@ -1,10 +1,8 @@
 import Head from 'next/head';
-import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Spinner, Table, Tbody, Td, Text, Th, Thead, Tr, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Spinner, Table, Tbody, Td, Th, Thead, Tr, VStack, useToast } from '@chakra-ui/react';
 import { useFetchProducts } from '@/hooks/products/useFetchProducts';
 import { useFormik } from 'formik';
 import { useCreateProduct } from '@/hooks/products/useCreateProduct';
-import { useMutation } from '@tanstack/react-query';
-import { axiosInstance } from '@/lib/axios';
 import { useDeleteProducts } from '@/hooks/products/useDeleteProducts';
 import { useEditProduct } from '@/hooks/products/useEditProduct';
 
