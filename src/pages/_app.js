@@ -6,7 +6,7 @@ export default function App({ Component, pageProps }) {
 	const queryClient = new QueryClient({
 		defaultOptions: {
 			queries: {
-				refetchOnWindowFocus: false, // fokus windows tidak auto refetch
+				// refetchOnWindowFocus: false, // fokus windows tidak auto refetch
 			},
 		},
 	});
