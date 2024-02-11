@@ -18,6 +18,7 @@ export default function Home() {
 			description: '',
 			image: '',
 		},
+		// data validated
 		validationSchema: yup.object().shape({
 			name: yup.string().required(),
 			price: yup.number().required(),
