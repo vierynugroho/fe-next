@@ -1,10 +1,11 @@
 import Head from 'next/head';
-import { Box, Button, Container, FormControl, FormLabel, Heading, Input, Spinner, Table, Tbody, Td, Th, Thead, Tr, VStack, useToast } from '@chakra-ui/react';
+import { Box, Button, Container, FormControl, FormErrorMessage, FormLabel, Heading, Input, Spinner, Table, Tbody, Td, Th, Thead, Tr, VStack, useToast } from '@chakra-ui/react';
 import { useFetchProducts } from '@/hooks/products/useFetchProducts';
 import { useFormik } from 'formik';
 import { useCreateProduct } from '@/hooks/products/useCreateProduct';
 import { useDeleteProducts } from '@/hooks/products/useDeleteProducts';
 import { useEditProduct } from '@/hooks/products/useEditProduct';
+import * as yup from 'yup';
 
 export default function Home() {
 	const { data: dataProducts, isLoading: productsIsLoading, refetch: refetchProducts } = useFetchProducts();
@@ -17,6 +18,12 @@ export default function Home() {
 			description: '',
 			image: '',
 		},
+		validationSchema: yup.object().shape({
+			name: yup.string().required(),
+			price: yup.number().required(),
+			description: yup.string().required().min(10),
+			image: yup.string().required(),
+		}),
 
 		onSubmit: () => {
 			const { name, price, description, image, id } = formik.values;
@@ -180,42 +187,42 @@ export default function Home() {
 									readOnly
 								/>
 							</FormControl>
-							<FormControl>
+							<FormControl isInvalid={formik.errors.name}>
 								<FormLabel>Name</FormLabel>
 								<Input
 									onChange={handleFormInput}
 									name='name'
-									required
 									value={formik.values.name}
 								/>
+								<FormErrorMessage>{formik.errors.name}</FormErrorMessage>
 							</FormControl>
-							<FormControl>
+							<FormControl isInvalid={formik.errors.price}>
 								<FormLabel>Price</FormLabel>
 								<Input
 									onChange={handleFormInput}
 									name='price'
-									required
 									value={formik.values.price}
 									type='number'
 								/>
+								<FormErrorMessage>{formik.errors.price}</FormErrorMessage>
 							</FormControl>
-							<FormControl>
+							<FormControl isInvalid={formik.errors.description}>
 								<FormLabel>Description</FormLabel>
 								<Input
 									onChange={handleFormInput}
 									name='description'
 									value={formik.values.description}
-									required
 								/>
+								<FormErrorMessage>{formik.errors.description}</FormErrorMessage>
 							</FormControl>
-							<FormControl>
+							<FormControl isInvalid={formik.errors.image}>
 								<FormLabel>Image</FormLabel>
 								<Input
 									onChange={handleFormInput}
 									name='image'
 									value={formik.values.image}
-									required
 								/>
+								<FormErrorMessage>{formik.errors.image}</FormErrorMessage>
 							</FormControl>
 							<Button
 								type='submit'
